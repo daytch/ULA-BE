@@ -1,0 +1,38 @@
+{
+  "name": "pemkotbitung",
+  "version": "1.0.0",
+  "description": "surat menyurat pemkot bitung",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/index.ts",
+    "build": "tsc",
+    "serve": "node ./build/index.js"
+  },
+  "author": "njicker",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node18": "^1.0.1",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.14",
+    "@types/node": "^18.11.9",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/jsonwebtoken": "^8.5.9",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
+    "mysql2": "^2.3.3",
+    "nik-parser": "^1.0.1",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.25.6",
+    "sequelize-typescript": "^2.1.5"
+  }
+}
