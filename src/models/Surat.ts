@@ -1,4 +1,6 @@
-import { Column, DataType, Model, Table, Unique } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
+import { SuratAttachment } from "./SuratAttachment";
+import { SuratLog } from "./SuratLog";
 
 @Table
 export class Surat extends Model<Surat> {
@@ -78,4 +80,10 @@ export class Surat extends Model<Surat> {
         defaultValue: "1970-01-01 00:00:00",
     })
     public tgl_selesai: string = "1970-01-01 00:00:00";
+
+    @HasMany(() => SuratAttachment)
+    public suratAttachment !: SuratAttachment[];
+
+    @HasMany(() => SuratLog)
+    public suratLog !: SuratLog[];
 }

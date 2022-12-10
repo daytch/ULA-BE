@@ -3,6 +3,7 @@ import { SuratLog } from "../models/SuratLog";
 import { Surat } from "../models/Surat";
 import moment from "moment";
 import { nikParser } from 'nik-parser'
+import { SuratAttachment } from "../models/SuratAttachment";
 
 export class MainController{
     public async SelfService(req: Request, res: Response){
@@ -140,12 +141,13 @@ export class MainController{
         let status = 0;
         try{
             status = 200
-            let surat = await Surat.findOne({
-                where: req.query
+            rtn = await Surat.findOne({
+                where: req.query,
+                include: [SuratAttachment, SuratLog]
             });
-            rtn = await SuratLog.findAll({
-                where: {id_surat: surat?.id}
-            });
+            // rtn = await SuratLog.findAll({
+            //     where: {id_surat: surat?.id}
+            // });
         }
         catch(err: any){
             console.error(err);
@@ -250,7 +252,8 @@ export class MainController{
                 status: req.body.payload.status
             }
             let surat = await Surat.findAll({
-                where: param
+                where: param,
+                include: [SuratAttachment]
             });
             rtn = surat
         }
@@ -273,7 +276,9 @@ export class MainController{
                 where: param
             });
             for(let s of surat){
-                let suratonly = await Surat.findByPk(s.id_surat);
+                let suratonly = await Surat.findByPk(s.id_surat, {
+                    include: [SuratAttachment]
+                });
                 if(suratonly?.status != param.status){
                     rtn.push(suratonly);
                 }
@@ -305,6 +310,16 @@ export class MainController{
                     SuratLogs.keterangan = req.body.keterangan;
                     SuratLogs.createdBy = req.body.payload.username;
                     SuratLogs.save();
+
+                    if(req.body.lampiran != undefined && req.body.lampiran != ""){
+                        let suratAttachment : SuratAttachment = new SuratAttachment();
+                        suratAttachment.id_surat = surats.id;
+                        suratAttachment.keterangan = req.body.keterangan;
+                        suratAttachment.status = req.body.destination;
+                        suratAttachment.createdBy = req.body.payload.username;
+                        suratAttachment.lampiran = req.body.lampiran;
+                        suratAttachment.save();
+                    }
 
                     status = 200
                 }

@@ -10,6 +10,7 @@ const SuratLog_1 = require("../models/SuratLog");
 const SuratStatus_1 = require("../models/SuratStatus");
 const Surat_1 = require("../models/Surat");
 const User_1 = require("../models/User");
+const SuratAttachment_1 = require("../models/SuratAttachment");
 dotenv_1.default.config({
     path: path_1.default.resolve(__dirname, "../../.env")
 });
@@ -29,7 +30,8 @@ const sequelizeConnection = new sequelize_typescript_1.Sequelize({
         Surat_1.Surat,
         SuratLog_1.SuratLog,
         SuratStatus_1.SuratStatus,
-        User_1.User
+        User_1.User,
+        SuratAttachment_1.SuratAttachment
     ],
     pool: {
         min: 2,

@@ -17,6 +17,7 @@ const SuratLog_1 = require("../models/SuratLog");
 const Surat_1 = require("../models/Surat");
 const moment_1 = __importDefault(require("moment"));
 const nik_parser_1 = require("nik-parser");
+const SuratAttachment_1 = require("../models/SuratAttachment");
 class MainController {
     SelfService(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -154,12 +155,13 @@ class MainController {
             let status = 0;
             try {
                 status = 200;
-                let surat = yield Surat_1.Surat.findOne({
-                    where: req.query
+                rtn = yield Surat_1.Surat.findOne({
+                    where: req.query,
+                    include: [SuratAttachment_1.SuratAttachment, SuratLog_1.SuratLog]
                 });
-                rtn = yield SuratLog_1.SuratLog.findAll({
-                    where: { id_surat: surat === null || surat === void 0 ? void 0 : surat.id }
-                });
+                // rtn = await SuratLog.findAll({
+                //     where: {id_surat: surat?.id}
+                // });
             }
             catch (err) {
                 console.error(err);
@@ -266,7 +268,8 @@ class MainController {
                     status: req.body.payload.status
                 };
                 let surat = yield Surat_1.Surat.findAll({
-                    where: param
+                    where: param,
+                    include: [SuratAttachment_1.SuratAttachment]
                 });
                 rtn = surat;
             }
@@ -290,7 +293,9 @@ class MainController {
                     where: param
                 });
                 for (let s of surat) {
-                    let suratonly = yield Surat_1.Surat.findByPk(s.id_surat);
+                    let suratonly = yield Surat_1.Surat.findByPk(s.id_surat, {
+                        include: [SuratAttachment_1.SuratAttachment]
+                    });
                     if ((suratonly === null || suratonly === void 0 ? void 0 : suratonly.status) != param.status) {
                         rtn.push(suratonly);
                     }
@@ -322,6 +327,15 @@ class MainController {
                         SuratLogs.keterangan = req.body.keterangan;
                         SuratLogs.createdBy = req.body.payload.username;
                         SuratLogs.save();
+                        if (req.body.lampiran != undefined && req.body.lampiran != "") {
+                            let suratAttachment = new SuratAttachment_1.SuratAttachment();
+                            suratAttachment.id_surat = surats.id;
+                            suratAttachment.keterangan = req.body.keterangan;
+                            suratAttachment.status = req.body.destination;
+                            suratAttachment.createdBy = req.body.payload.username;
+                            suratAttachment.lampiran = req.body.lampiran;
+                            suratAttachment.save();
+                        }
                         status = 200;
                     }
                     else {

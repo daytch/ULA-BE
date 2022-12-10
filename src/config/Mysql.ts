@@ -5,6 +5,7 @@ import { SuratLog } from "../models/SuratLog";
 import { SuratStatus } from "../models/SuratStatus";
 import { Surat } from "../models/Surat";
 import { User } from "../models/User";
+import { SuratAttachment } from "../models/SuratAttachment";
 
 dotenv.config({
     path: path.resolve(__dirname, "../../.env")
@@ -27,7 +28,8 @@ const sequelizeConnection = new Sequelize({
         Surat,
         SuratLog,
         SuratStatus,
-        User
+        User,
+        SuratAttachment
     ],
     pool: {
         min: 2,

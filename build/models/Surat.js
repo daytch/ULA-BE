@@ -8,6 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Surat = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
+const SuratAttachment_1 = require("./SuratAttachment");
+const SuratLog_1 = require("./SuratLog");
 let Surat = class Surat extends sequelize_typescript_1.Model {
     constructor() {
         super(...arguments);
@@ -91,6 +93,12 @@ __decorate([
         defaultValue: "1970-01-01 00:00:00",
     })
 ], Surat.prototype, "tgl_selesai", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => SuratAttachment_1.SuratAttachment)
+], Surat.prototype, "suratAttachment", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => SuratLog_1.SuratLog)
+], Surat.prototype, "suratLog", void 0);
 Surat = __decorate([
     sequelize_typescript_1.Table
 ], Surat);
