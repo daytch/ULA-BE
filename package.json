@@ -32,6 +32,7 @@
     "moment": "^2.29.4",
     "mysql2": "^2.3.3",
     "nik-parser": "^1.0.1",
+    "reflect-metadata": "^0.1.13",
     "sequelize": "^6.25.6",
     "sequelize-typescript": "^2.1.5"
   }
