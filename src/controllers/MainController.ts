@@ -253,7 +253,7 @@ export class MainController{
             }
             let surat = await Surat.findAll({
                 where: param,
-                include: [SuratAttachment]
+                include: [SuratAttachment, SuratLog]
             });
             rtn = surat
         }
@@ -277,7 +277,7 @@ export class MainController{
             });
             for(let s of surat){
                 let suratonly = await Surat.findByPk(s.id_surat, {
-                    include: [SuratAttachment]
+                    include: [SuratAttachment, SuratLog]
                 });
                 if(suratonly?.status != param.status){
                     rtn.push(suratonly);
@@ -350,7 +350,8 @@ export class MainController{
         let status = 0;
         try{
             let surat = await Surat.findAll({
-                order: [['createdAt', 'DESC']]
+                order: [['createdAt', 'DESC']],
+                include: [SuratAttachment, SuratLog]
             });
             for(let s of surat){
                 let logs = await SuratLog.findOne({
